@@ -1,6 +1,13 @@
+%%ERROR: defunct. fails to return proper cluster sizes
+%%TODO:fix. always point to same numbers so clusters are easy to
+%%distinguish at every step. maintain sizes at each step too
+%%better method is to use built-in linkage function
+%%or see MSTmovie for an example of how to do it while looping through for
+%%processing.
 function [clsSize]=clusterSizes(sortMST, links1, links2)
-clsSize=ones(size(x,1),1);
-clsRep=1:size(x,1);
+numElem=size(sortMST,1)+1;
+clsSize=ones(numElem,numElem-1);
+clsRep=1:numElem;
 
 for indx=1:size(sortMST,1)
     el1=links1(indx); 
