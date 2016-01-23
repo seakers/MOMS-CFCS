@@ -4,7 +4,7 @@
 %%better method is to use built-in linkage function
 %%or see MSTmovie for an example of how to do it while looping through for
 %%processing.
-function [mergeSizes]=clusterSizes(sortMST, links1, links2)
+function [mergeSizes]=mergeSizes(sortMST, links1, links2)
 numElem=size(sortMST,1)+1;
 clsSize=ones(numElem,numElem-1);
 clsRep=1:numElem;
