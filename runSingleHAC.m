@@ -32,5 +32,5 @@ links2=col(sortMSTindx);
 features1=x(links1,:);
 features2=x(links2,:);
 
-% clsSizes=clusterSizes(sortMST, links1,links2);
-clsSizes=nan;
+clsSizes=clusterSizes(sortMST, links1,links2);
+% clsSizes=nan;
