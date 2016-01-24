@@ -8,6 +8,7 @@ if length(uniqX)~=size(x,1)
 end
 [~,uniqY, invUniqY]=unique(y,'rows');
 if length(uniqY)~=size(y,1);
+    cleanedY=true;
     xSav=x; % note: the corresponding y's are given as y(invUniqY,:);
     x=x(uniqY,:);
     y=y(uniqY,:);
@@ -18,14 +19,23 @@ dendrogram(Z,100);
 
 % addpath('../ExtUtils/indexDunnMod/');
 options.show=0;
-[MST,~,~]=graph_EMST(y,options);
+[MSTreal,~,~]=graph_EMST(y,options);
+
+%% add duplicate y's as identical-element clusters
+%make non-links inf to distinguish.
+dupVals=find(histc(invUniqY,1:length(uniqY))>=2);
+MSTreal(~MSTreal)=inf;
+MST=MSTreal(invUniqY,invUniqY);
+
+MST(sub2ind(size(MST),
 
 % figure
 % plotMSTclusters(MST,y)
 
 %% extracting features
-[row,col]=find(MST);
+[row,col]=find(MST<inf);
 [sortMST,sortMSTindx]=sort(MST(sub2ind(size(MST),row,col))); % by sorting, get cluster merge order
+
 links1=row(sortMSTindx);
 links2=col(sortMSTindx);
 
