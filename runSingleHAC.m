@@ -12,8 +12,7 @@ xSav=x; % note: the corresponding y's are given as y(invUniqY,:);
 % x=x(uniqY,:);
 y=y(uniqY,:);
 
-Z=linkage(y,'single','euclidean');
-dendrogram(Z,100);
+Z=nan;
 
 % addpath('../ExtUtils/indexDunnMod/');
 options.show=0;
