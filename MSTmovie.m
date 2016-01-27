@@ -9,7 +9,7 @@
 function movieFrames=MSTmovie(sortMST, links1, links2, points, diffTxt, ~)
 figure
 hold on
-plot(points(:,1),points(:,2),'.');
+plot(points(:,1),points(:,2),'k.');
 
 frames=size(sortMST,1);
 movieFrames(frames)=struct('cdata',[],'colormap',[]);
