@@ -1,5 +1,5 @@
 %%last frame of MSTmovie
-function MSTplot(sortMST, links1, links2, points)
+function MSTplot(sortMST, links1, links2, points,strs)
 figure
 hold on
 set(gcf(),'Visible','off')
@@ -35,6 +35,12 @@ for(indx=1:size(sortMST,1))
 
     lineClr=hsv2rgb([2/3*(1-clsSize(repLo)/numElem),1,1]);
     plot(pltX,pltY,'-','Color',lineClr);
+    
+    txtX=mean(pltX); txtY=mean(pltY);
+    
+    Xlim=get(gca(),'XLim'); Ylim=get(gca(),'YLim');
+    offset=0.03;
+    text(txtX+range(Xlim)*offset,txtY+range(Ylim)*offset,strs{indx});
 end
-colorbar
+colorbar('location','WestOutside');
 set(gcf(),'Visible','on')

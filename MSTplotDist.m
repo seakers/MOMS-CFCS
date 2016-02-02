@@ -1,6 +1,6 @@
 %%MSTplot but colors of lines is based on distance of connection instead of
 %%class merge size
-function MSTplotDist(sortMST, links1, links2, points)
+function MSTplotDist(sortMST, links1, links2, points,strs)
 figure
 hold on
 set(gcf(),'Visible','off')
@@ -15,8 +15,13 @@ for(indx=1:size(sortMST,1))
     
     lineClr=hsv2rgb([2/3*(1-sortMST(indx)/max(sortMST)),1,1]);
     plot(pltX,pltY,'-','Color',lineClr);
+    
+    Xlim=get(gca(),'XLim'); Ylim=get(gca(),'YLim');
+    offset=0.015;
+    txtX=mean(pltX); txtY=mean(pltY);
+    text(txtX+range(Xlim)*offset,txtY+range(Ylim)*offset,strs{indx});
 end
-colorbar
+colorbar('location','WestOutside');
 set(gcf(),'Visible','on')
 
 % movie(movieFrames,1,4);
