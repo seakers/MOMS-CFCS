@@ -36,20 +36,20 @@ end
 %check if lines used in matching cross space controlled by other clusters.
 adjacent=nan(size(matching,1),1);
 for(indx=1:size(matching,1))
-    cls1=matching{indx,1}; cls2=matching{indx,2};
+    cls1=matching{indx,1}; cls2=matching{indx,2}; assign=matching{indx,3};
     cls1pts=find(clusters==cls1);
-%     cls2pts=find(clusters==cls2);
-    cls2pts= (clusters==cls2);
+    cls2pts= find(clusters==cls2);
     chkAgainst= clusters~=cls1 & clusters~=cls2;
     
-    cls1used=cls1pts(matching{indx,3}>0);
-    cls2used= cls2pts; 
+    cls1used=cls1pts(assign>0);
+    cls2used=cls2pts(assign(assign>0)); %permutes the ordering of class 2 to match class1
+    
     cls1locs=pointLocations(cls1used,:);
     cls2locs=pointLocations(cls2used,:);
     againstLoc=pointLocations(chkAgainst,:);
     
-    passings=linePassThroughBall(cls1locs,cls2locs,againstLoc,bubbleWidth);    
-    adjacent(indx)=(~squeeze(any(any(any(passings))))); 
+    passings=linePassThroughBall(cls1locs,cls2locs,againstLoc,bubbleWidth);
+    adjacent(indx)=(~squeeze(any(any(passings)))); 
 end
 
 %% kill non-adjacent links
