@@ -35,12 +35,12 @@ for indx=1:size(distConn,1)
 %     [~,jobUnmixer]=sort(jobMixer);
     thisDist=thisDist(wrkMixer,jobMixer);
     
-    [assign,totalCost]=munkres(sqrt(thisDist)); %sqrt unnecessary
+    [assign,~]=munkres(sqrt(thisDist)); %sqrt unnecessary
     
     assign(assign>0)=jobMixer(assign(assign>0));
     assign=assign(wrkUnmixer);
     
-    matching(indx,:)={wrkCls,jobCls,assign,totalCost};
+    matching(indx,:)={wrkCls,jobCls,assign};
 end
 %assign is a row vector which satisfies
 %assign(cls1element)==assignedCls2element where cls1element are
