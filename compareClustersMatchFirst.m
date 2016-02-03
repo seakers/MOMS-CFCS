@@ -13,14 +13,34 @@ matching=cell(size(clsPairs,1),4);
 
 for indx=1:size(distConn,1)
     thisDist=distConn{indx};
+    wrkCls=clsPairs(indx,1);jobCls=clsPairs(indx,2);
+    
     [wrkrs,jobs]=size(thisDist);
-    if(wrkrs>=jobs)
-        [assign,totalCost]=munkres(sqrt(thisDist)); %sqrt unnecessary
-        matching(indx,:)={clsPairs(indx,1),clsPairs(indx,2),assign,totalCost};
-    else
-        [assign,totalCost]=munkres(sqrt(thisDist')); %sqrt unnecessary
-        matching(indx,:)={clsPairs(indx,2),clsPairs(indx,1),assign,totalCost};
+    if(wrkrs<jobs)
+        tmp=wrkrs;
+        wrkrs=jobs;
+        jobs=tmp;
+        
+        tmp=wrkCls;
+        wrkCls=jobCls;
+        jobCls=tmp;
+        thisDist=thisDist';
     end
+    
+    %the mixer mixes up indicies
+    %the unmixer tells who became the input index
+    %the mixer also tells who got the input index
+    wrkMixer=randperm(wrkrs); jobMixer=randperm(jobs);
+    [~,wrkUnmixer]=sort(wrkMixer); 
+%     [~,jobUnmixer]=sort(jobMixer);
+    thisDist=thisDist(wrkMixer,jobMixer);
+    
+    [assign,totalCost]=munkres(sqrt(thisDist)); %sqrt unnecessary
+    
+    assign(assign>0)=jobMixer(assign(assign>0));
+    assign=assign(wrkUnmixer);
+    
+    matching(indx,:)={wrkCls,jobCls,assign,totalCost};
 end
 %assign is a row vector which satisfies
 %assign(cls1element)==assignedCls2element where cls1element are
