@@ -1,9 +1,3 @@
-%%ERROR: defunct. fails to return proper cluster sizes
-%%TODO:fix. always point to same numbers so clusters are easy to
-%%distinguish at every step. maintain sizes at each step too
-%%better method is to use built-in linkage function
-%%or see MSTmovie for an example of how to do it while looping through for
-%%processing.
 function [mergeSizes]=mergeSizes(sortMST, links1, links2)
 numElem=size(sortMST,1)+1;
 clsSize=ones(numElem,numElem-1);

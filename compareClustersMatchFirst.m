@@ -9,7 +9,7 @@ clsPairs=[cls1list;cls2list]';
 distConn=allDistBetweenClusters(clsPairs,clusters,pointLocations);
 
 %% for each pair of adjacent clusters, apply hungarian algorithm
-matching=cell(size(clsPairs,1),4);
+matching=cell(size(clsPairs,1),3);
 
 for indx=1:size(distConn,1)
     thisDist=distConn{indx};
