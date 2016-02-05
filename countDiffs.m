@@ -1,4 +1,4 @@
-function diffsGrouping=countDiffs(diffFeat,clsMergeSz,sortMST)
+function diffsGrouping=countDiffs(diffFeat,clsMergeSz,sortEdgesByWeight)
 sortMergeSz=sort(clsMergeSz,2);
 radix=size(clsMergeSz,1)+1;
 UID=sum(sortMergeSz.*repmat([radix,1],size(sortMergeSz,1),1),2); % note size(y,1) is # of merge operations
@@ -7,7 +7,7 @@ numDigit=size(diffFeat,2);
 
 [usedFeats,featsSortIndx]=unique(UID);
 meanDist=NaN(size(usedFeats,1),1);
-featsSortMST=sortMST(featsSortIndx);
+featsSortMST=sortEdgesByWeight(featsSortIndx);
 for id=usedFeats'
     meanDist(id)=mean(featsSortMST(id==usedFeats));
 end
