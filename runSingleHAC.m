@@ -43,4 +43,4 @@ links2=col(sortMSTindx);
 features1=xSav(links1,:);
 features2=xSav(links2,:);
 
-clsSizes=mergeSizes(sortMST, links1,links2);
+clsSizes=mergeSizes(links1,links2);

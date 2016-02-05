@@ -4,6 +4,9 @@
 %%munkres (output munkres to assign input). More fully, the larger class
 %%has the elements which are assigned retrieved and the smaller class is
 %%permuted. cls1 and cls2 have no size constraints.
+%%inputs shold be one pair of adjacent clusters (scalar ints cls1, cls2) with
+%%assignment assigns. clusters has all points (not jsut those in cls1 or
+%%cls2) assign is the assignment between points in the clusters
 function [cls1used, cls2used]=interpretMunkresMatching(clusters, cls1, cls2, assign)
     cls1pts=find(clusters==cls1);
     cls2pts=find(clusters==cls2);

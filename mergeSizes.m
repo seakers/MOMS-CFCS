@@ -1,10 +1,10 @@
-function [mergeSizes]=mergeSizes(sortMST, links1, links2)
-numElem=size(sortMST,1)+1;
+function [mergeSizes]=mergeSizes(links1, links2)
+numElem=size(links1,1)+1;
 clsSize=ones(numElem,numElem-1);
 clsRep=1:numElem;
 mergeSizes=nan(numElem-1,2); % size of each cluster before merge. Sum together to get new cluster size
 
-for indx=1:size(sortMST,1)
+for indx=1:size(links1,1)
     el1=links1(indx); 
     el2=links2(indx);
     
