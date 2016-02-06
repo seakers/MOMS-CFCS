@@ -1,4 +1,4 @@
-function [matching]=compareClustersMatchFirst(clusters,pointLocations, bubbleWidth)
+function [matching]=compareClustersMatchFirst(clusters,pointLocations, MST)
 numClusters=max(clusters);
 [cls1list,cls2list]=ind2sub([numClusters,numClusters],1:numClusters*numClusters);
 distinctPair=cls1list<cls2list;
@@ -7,6 +7,7 @@ clsPairs=[cls1list;cls2list]';
 
 %% find distances
 distConn=allDistBetweenClusters(clsPairs,clusters,pointLocations);
+% distWithin=allDistWithinClusters(clusters,pointLocations);
 
 %% for each pair of adjacent clusters, apply hungarian algorithm
 matching=cell(size(clsPairs,1),3);
@@ -53,8 +54,16 @@ end
 % points in a given cluster. Clusters are adjacent iff the lines connecting
 % points do not intersect the space occupied by other clusters.
 
-%check if lines used in matching cross space controlled by other clusters.
 adjacent=nan(size(matching,1),1);
+
+% subClusterMSTs=arrayfun(@(cls)
+% graph_EMST(pointLocations(clusters==cls,:)),unique(clusters),'UniformOutput',false);
+% %invertia: delauney triangulation fails here returns empty edge set on
+% 2nd input.. Original attempt to do without passin gin the MST directly.
+% MST=max(cellfun(@(x) max(max(x)),subClusterMSTs,'UniformOutput',true));
+fullMST=full(MST);
+bubbleWidth=max(arrayfun(@(cls) max(max(fullMST(clusters==cls,clusters==cls))),unique(clusters)));
+
 for(indx=1:size(matching,1))
     [cls1used,cls2used]=interpretMunkresMatching(clusters,matching{indx,1},matching{indx,2},matching{indx,3});
     

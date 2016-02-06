@@ -3,8 +3,8 @@ function [crosses,distances]=linePassThroughBall(lineEndpoint1,lineEndpoint2,bal
     numLine=size(lineEndpoint1,1);
     numComp=size(ballCenter,1);
     
-    compX1=repmat(lineEndpoint1,1,1,numComp);
-    compX2=repmat(lineEndpoint2,1,1,numComp);
+    compX1=repmat(lineEndpoint1,[1,1,numComp]);
+    compX2=repmat(lineEndpoint2,[1,1,numComp]);
     compX2rel=compX2-compX1;
     
     compComp=repmat(reshape(ballCenter',1,vecDim,numComp),[numLine,1,1]);

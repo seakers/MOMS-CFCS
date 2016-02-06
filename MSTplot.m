@@ -1,4 +1,4 @@
-%%last frame of MSTmovie
+%%last frame of MSTmovie, plots witht he text of strs.
 function MSTplot(sortMST, links1, links2, points,strs)
 figure
 hold on
