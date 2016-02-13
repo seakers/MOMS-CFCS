@@ -10,9 +10,9 @@ numDigit=size(diffFeat,2);
 [usedFeats,featsSortIndx]=unique(UID);
 meanDist=NaN(size(usedFeats,1),1);
 featsSortMST=sortEdgesByWeight(featsSortIndx);
-for id=usedFeats'
-    meanDist(id)=mean(featsSortMST(id==usedFeats));
-end
+% for id=usedFeats'
+%     meanDist(id)=mean(featsSortMST(id==usedFeats));
+% end
 
 [~,meanSortIndx]=sort(featsSortMST);
 sortUsedFeats=usedFeats(meanSortIndx);
