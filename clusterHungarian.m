@@ -1,4 +1,4 @@
-function [matching]=clusterHungarian(clsPairs,distConn)
+function [matching]=clusterHungarian(clsPairs,distConn, varargin)
 matching=cell(size(clsPairs,1),3);
 
 if(length(distConn)~=size(clsPairs,1))
@@ -11,6 +11,7 @@ for indx=1:size(distConn,1)
     wrkCls=clsPairs(indx,1);jobCls=clsPairs(indx,2);
     
     [wrkrs,jobs]=size(thisDist);
+    setCenter=false;
     if(wrkrs<jobs)
         tmp=wrkrs;
         wrkrs=jobs;
@@ -20,6 +21,18 @@ for indx=1:size(distConn,1)
         wrkCls=jobCls;
         jobCls=tmp;
         thisDist=thisDist';
+        
+        if nargin>2
+            center=varargin{1};
+            thisCenter=center{indx};
+            centerDist=repmat(thisCenter{2},wrkrs-jobs,1)';
+            setCenter=true;
+        end
+    end
+    if nargin>2 && ~setCenter
+        center=varargin{1};
+        thisCenter=center{indx};
+        centerDist=repmat(thisCenter{1},1,wrkrs-jobs);
     end
     
     disp([num2str(indx), '<- indx | perfect Match size ->', num2str(jobs)])
@@ -31,9 +44,13 @@ for indx=1:size(distConn,1)
     [~,wrkUnmixer]=sort(wrkMixer); 
 %     [~,jobUnmixer]=sort(jobMixer);
     thisDist=thisDist(wrkMixer,jobMixer);
-    
-    [assign,~]=munkres(sqrt(thisDist)); %sqrt unnecessary
-    
+    if nargin>2
+        fullDist=[thisDist, centerDist];
+    else
+        fullDist=thisDist;
+    end
+    [assign,~]=munkres(sqrt(fullDist)); %sqrt unnecessary
+    assign(assign>jobs)=0;
     assign(assign>0)=jobMixer(assign(assign>0));
     assign=assign(wrkUnmixer);
     

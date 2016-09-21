@@ -51,7 +51,7 @@ clsSizes=arrayfun(@(x) sum(cutoffCls==x),unique(cutoffCls));
     filteredY=thisY(surviveMask,:);
     filteredCls=thisClusters(surviveMask);
     
-    plotGraphPlus([],thisY,[],[],surviveMask,[],[]);
+    % plotGraphPlus([],thisY,[],[],surviveMask,[],[]);
 
     %% cluster-pairing
     % use all pairs for now.
@@ -63,8 +63,8 @@ clsSizes=arrayfun(@(x) sum(cutoffCls==x),unique(cutoffCls));
     end
 
     %% perform the matching.
-    distConn=allDistBetweenClusters(clsPairs,filteredCls,filteredY);
-    thisMatching=clusterHungarian(clsPairs,distConn);
+    [distConn,centerDists]=allDistBetweenClusters(clsPairs,filteredCls,filteredY);
+    thisMatching=clusterHungarian(clsPairs,distConn,centerDists);
     [thisMatchingEdges,matchingCls,~]=accumulateMunkresMatch(filteredCls,filteredY,thisMatching);
     
     %% de-pair

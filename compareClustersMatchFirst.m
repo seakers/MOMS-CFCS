@@ -6,11 +6,11 @@ cls1list=cls1list(distinctPair); cls2list=cls2list(distinctPair);
 clsPairs=[cls1list;cls2list]';
 
 %% find distances
-distConn=allDistBetweenClusters(clsPairs,clusters,pointLocations);
+[distConn,centerDists]=allDistBetweenClusters(clsPairs,clusters,pointLocations);
 % distWithin=allDistWithinClusters(clusters,pointLocations);
 
 %% for each pair of clusters, apply hungarian algorithm
-matching=clusterHungarian(clsPairs,distConn);
+matching=clusterHungarian(clsPairs,distConn,centerDists);
 
 %% define notion of adjacency and find adjacent clusters
 [adjacent]=adjacencyCheck(matching,pointLocations,clusters,MST);

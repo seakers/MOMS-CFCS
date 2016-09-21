@@ -12,7 +12,7 @@ dendrogram(Z,100);
 % cophnetCorr=cophenet(Z,pdist(y,'euclidean')) % correlation between cophenetic distance (distance in tree) to distances in space. Probably not useful in our interpretation of problem.
 % cutoffCls=cluster(Z,'cutoff',varargin{2:end}); % the interesting stuff seems to hapen between 1.1 and 1.2
 cutoffCls=cluster(Z,varargin{2:end});
-plotGraphPlus([],y,[],[],cutoffCls,[],mat2cell(num2str(cutoffCls),ones(size(cutoffCls,1),1),size(num2str(cutoffCls),2)));
+% plotGraphPlus([],y,[],[],cutoffCls,[],mat2cell(num2str(cutoffCls),ones(size(cutoffCls,1),1),size(num2str(cutoffCls),2)));
 % plotGraphPlus([],y,[],[],cutoffCls,[],[]);
 
 % matching=compareClusters(cutoffCls,y,varargin(1));
