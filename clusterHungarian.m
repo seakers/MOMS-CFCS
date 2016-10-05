@@ -12,7 +12,7 @@ for indx=1:size(distConn,1)
     
     [wrkrs,jobs]=size(thisDist);
     setCenter=false;
-    if(wrkrs<jobs)
+    if(wrkrs<jobs) % insure more workers than jobs
         tmp=wrkrs;
         wrkrs=jobs;
         jobs=tmp;
@@ -20,7 +20,7 @@ for indx=1:size(distConn,1)
         tmp=wrkCls;
         wrkCls=jobCls;
         jobCls=tmp;
-        thisDist=thisDist';
+        thisDist=thisDist'; % thisDist is tall.
         
         if nargin>2
             center=varargin{1};
@@ -43,16 +43,25 @@ for indx=1:size(distConn,1)
     wrkMixer=randperm(wrkrs); jobMixer=randperm(jobs);
     [~,wrkUnmixer]=sort(wrkMixer); 
 %     [~,jobUnmixer]=sort(jobMixer);
+    unmixDist=thisDist;
     thisDist=thisDist(wrkMixer,jobMixer);
     if nargin>2
         fullDist=[thisDist, centerDist];
     else
         fullDist=thisDist;
     end
-    [assign,~]=munkres(sqrt(fullDist)); %sqrt unnecessary
+    [assign,~]=munkres(fullDist); %sqrt unnecessary
     assign(assign>jobs)=0;
     assign(assign>0)=jobMixer(assign(assign>0));
     assign=assign(wrkUnmixer);
+    
+    % assign is a vector the length of the workCls and has indicies 0
+    % (unmatched) through number of jobcls elements with workcls which are
+    % matchings between a given element in the jobclass to the elements in
+    % workclass.
+    unmatched=(assign==0);
+    [~,toMatch]=min(unmixDist(unmatched,:),[],2);
+    assign(unmatched)=toMatch;
     
     matching(indx,:)={wrkCls,jobCls,assign};
 end
