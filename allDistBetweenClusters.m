@@ -15,6 +15,8 @@ for(indx=1:size(clsPairs,1))
     center1dist2=repmat(sum(cls1center.^2,2),1,size(cls2locs,2))+repmat(sum(cls2locs.^2,1),size(cls1center,1),1)-2*cls1center*cls2locs;
     center2dist1=repmat(sum(cls1locs.^2,2),1,size(cls2center,2))+repmat(sum(cls2center.^2,1),size(cls1locs,1),1)-2*cls1locs*cls2center;
     
-    distConn{indx}=sqrt(distsSqrd);
+    distConn{indx}=distsSqrd;
     centerDists{indx}={center2dist1,center1dist2};
+    
+    % not true distances. Would need sqrt.
 end
