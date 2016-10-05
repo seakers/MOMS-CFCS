@@ -15,8 +15,8 @@ cutoffCls=cluster(Z,varargin{2:end});
 % plotGraphPlus([],y,[],[],cutoffCls,[],mat2cell(num2str(cutoffCls),ones(size(cutoffCls,1),1),size(num2str(cutoffCls),2)));
 % plotGraphPlus([],y,[],[],cutoffCls,[],[]);
 
-% matching=compareClustersMatchFirst(cutoffCls,y,varargin{1});
-matching=compareClustersMatchFirst(cutoffCls, x, varargin{1});
+matching=compareClustersMatchFirst(cutoffCls,y,varargin{1});
+% matching=compareClustersMatchFirst(cutoffCls, x, varargin{1});
 
 
 [matchingEdges,~,matchIndx]=accumulateMunkresMatch(cutoffCls,y,matching);
