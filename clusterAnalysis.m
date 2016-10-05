@@ -3,7 +3,7 @@
 %%varargin{1} radius of ball around which points occupy OBSOLETED
 %%varargin{1} MST corresponding to the points y.
 %%varargin{2:end} inputs for breaking clusters.
-function [Z,matchingEdges,matchSizes,matchSizesForFeatMatch,matching]=clusterAnalysis(y,varargin)
+function [Z,matchingEdges,matchSizes,matchSizesForFeatMatch,matching]=clusterAnalysis(x,y,varargin)
 Z=linkage(y,'single','euclidean');
 
 figure
@@ -15,8 +15,9 @@ cutoffCls=cluster(Z,varargin{2:end});
 % plotGraphPlus([],y,[],[],cutoffCls,[],mat2cell(num2str(cutoffCls),ones(size(cutoffCls,1),1),size(num2str(cutoffCls),2)));
 % plotGraphPlus([],y,[],[],cutoffCls,[],[]);
 
-% matching=compareClusters(cutoffCls,y,varargin(1));
-matching=compareClustersMatchFirst(cutoffCls,y,varargin{1});
+% matching=compareClustersMatchFirst(cutoffCls,y,varargin{1});
+matching=compareClustersMatchFirst(cutoffCls, x, varargin{1});
+
 
 [matchingEdges,~,matchIndx]=accumulateMunkresMatch(cutoffCls,y,matching);
 % plot([y(matchingEdges(:,1),1),y(matchingEdges(:,2),1)]',[y(matchingEdges(:,1),2),y(matchingEdges(:,2),2)]');
