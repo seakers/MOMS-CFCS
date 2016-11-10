@@ -6,7 +6,9 @@ if length(uniqX)~=size(x,1)
 
     error('nonunique input test values detected (x has nonuniqe rows)');
 end
-[~,uniqY, invUniqY]=unique(y,'rows');
+y=round(y*1e5)/1e5; % dealing with numeric issues. Can't quite explain it, but if we have reeeaaaallllyyyy close values of y, the MST makes really funny connections
+% [~,uniqY, invUniqY]=unique(y,'rows'); % this would be cleaner if we could control which one is taken.
+[~,uniqY, invUniqY]=unique(y,'rows','last'); % this would be cleaner if we could control which one is taken.
 xSav=x; % note: the corresponding y's are given as y(invUniqY,:);
 % cleanedY=true;
 % x=x(uniqY,:);

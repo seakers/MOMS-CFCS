@@ -22,6 +22,6 @@ for(indx=1:size(matching,1))
     chkAgainst= clusters~=matching{indx,1} & clusters~=matching{indx,2};
     againstLoc=pointLocations(chkAgainst,:);
     
-    passings=linePassThroughBall(cls1locs,cls2locs,againstLoc,bubbleWidth);
+    passings=linePassThroughBall(cls1locs,cls2locs,againstLoc,2*bubbleWidth);
     adjacent(indx)=(~squeeze(any(any(passings)))); 
 end

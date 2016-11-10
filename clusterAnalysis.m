@@ -22,6 +22,7 @@ matching=compareClustersMatchFirst(cutoffCls,y,varargin{1});
 [matchingEdges,~,matchIndx]=accumulateMunkresMatch(cutoffCls,y,matching);
 % plot([y(matchingEdges(:,1),1),y(matchingEdges(:,2),1)]',[y(matchingEdges(:,1),2),y(matchingEdges(:,2),2)]');
 % plotGraphPlus([],y,matchingEdges(:,1:2),repmat('r',size(matchingEdges,1),1),cutoffCls,[],[]);
+% plotGraphPlus([],y,matchingEdges(:,1:2),matchIndx,cutoffCls,[],[]);
 
 matchSizes=cell2mat(cellfun(@(cls1,cls2) [sum(cutoffCls==cls1),sum(cutoffCls==cls2)], matching(:,1),matching(:,2),'UniformOutput',false));
 matchSizesForFeatMatch=[matchSizes(matchIndx,1),matchSizes(matchIndx,2)];

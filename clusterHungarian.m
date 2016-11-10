@@ -1,4 +1,8 @@
 function [matching]=clusterHungarian(clsPairs,distConn, varargin)
+%%performs the hungarian algorithm on the objects given by distConn
+%%varargin{1}=distance from each point to a reference point for the
+%%purposes of matching elements to dummy points in the partial matching
+
 matching=cell(size(clsPairs,1),3);
 
 

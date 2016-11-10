@@ -1,4 +1,4 @@
-function [matching]=compareClustersMatchFirst(clusters,pointLocations, MST)
+function [matching,adjacent]=compareClustersMatchFirst(clusters,pointLocations, MST)
 numClusters=max(clusters);
 [cls1list,cls2list]=ind2sub([numClusters,numClusters],1:numClusters*numClusters);
 distinctPair=cls1list<cls2list;
