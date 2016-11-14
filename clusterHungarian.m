@@ -2,7 +2,10 @@ function [matching]=clusterHungarian(clsPairs,distConn, varargin)
 %%performs the hungarian algorithm on the objects given by distConn
 %%varargin{1}=distance from each point to a reference point for the
 %%purposes of matching elements to dummy points in the partial matching
-
+%%returns the matchings, a cell array of size nx3 where n is the number of
+%%adjacent clusters and the first two columns are indicies corresponding to
+%%clsPairs and the the final column is the matching of the larger (1st
+%%column) to the smaller (2nd column)
 matching=cell(size(clsPairs,1),3);
 
 
@@ -13,23 +16,28 @@ if(length(distConn)~=size(clsPairs,1))
 end
 
 disp([num2str(size(clsPairs,1)),' connections']);
-center=varargin{1};
+if nargin>2
+    center=varargin{1};
+end
 
 for indx=1:size(distConn,1)
     thisDist=distConn{indx};
     wrkCls=clsPairs(indx,1);jobCls=clsPairs(indx,2);
     
-    thisCenter=center{indx};
+    if nargin>2
+        thisCenter=center{indx};
 
-    [wrkCls,jobCls,assign, thisDist, ~]=partialMatchOne(thisDist, thisCenter, wrkCls, jobCls);
-    if wrkCls==clsPairs(indx,1)
-        thisCenterL=thisCenter{1};
-        thisCenterR=thisCenter{2};
+        [wrkCls,jobCls,assign, thisDist, ~]=partialMatchOne(thisDist, wrkCls, jobCls, thisCenter);
+        if wrkCls==clsPairs(indx,1)
+            thisCenterL=thisCenter{1};
+            thisCenterR=thisCenter{2};
+        else
+            thisCenterL=thisCenter{2};
+            thisCenterR=thisCenter{1};
+        end
     else
-        thisCenterL=thisCenter{2};
-        thisCenterR=thisCenter{1};
+        [wrkCls,jobCls,assign, thisDist]=partialMatchOne(thisDist, wrkCls, jobCls);
     end
-    
 %% rematching for larger sets
 %     toAssign=(assign==0);
 %     while any(toAssign)
@@ -56,7 +64,7 @@ end
 %adjacent{i,2} respectively.
 return
 
-function [wrkCls,jobCls,assign, thisDist, centerDist]=partialMatchOne(thisDist, centerDistsCell, wrkCls, jobCls)
+function [wrkCls,jobCls,assign, thisDist, varargout]=partialMatchOne(thisDist, wrkCls, jobCls, varargin)
 % this whol thing could be cleaned up if kept consistent left/right instead
 % of job/wrk classes
     [wrkrs,jobs]=size(thisDist);
@@ -71,15 +79,17 @@ function [wrkCls,jobCls,assign, thisDist, centerDist]=partialMatchOne(thisDist, 
         jobCls=tmp;
         thisDist=thisDist'; % thisDist is tall.
         
-        if nargin>2
-            thisCenter=centerDistsCell;
+        if nargin>3
+            thisCenter=varargin{1};
             centerDist=repmat(thisCenter{2},wrkrs-jobs,1)';
             setCenter=true;
+            varargout{1}=centerDist;
         end
     end
-    if nargin>2 && ~setCenter
-        thisCenter=centerDistsCell;
+    if nargin>3 && ~setCenter
+        thisCenter=varargin{1};
         centerDist=repmat(thisCenter{1},1,wrkrs-jobs);
+        varargout{1}=centerDist;
     end
     
 %     disp([num2str(indx), '<- indx | perfect Match size ->', num2str(jobs)])
@@ -92,7 +102,7 @@ function [wrkCls,jobCls,assign, thisDist, centerDist]=partialMatchOne(thisDist, 
 %     [~,jobUnmixer]=sort(jobMixer);
     unmixDist=thisDist;
     thisDist=thisDist(wrkMixer,jobMixer);
-    if nargin>2
+    if nargin>3
         fullDist=[thisDist, centerDist];
     else
         fullDist=thisDist;

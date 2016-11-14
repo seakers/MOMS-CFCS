@@ -1,4 +1,4 @@
-function [matchingX,adjacent]=compareClustersMatchFirstInX(clusters,pointLocations, MSTy, archs, xDistFunc, isXDistVectorized)
+function [matchingX,adjacent]=compareClustersFirstInXminDist(clusters,pointLocations, MSTy, archs, xDistFunc, isXDistVectorized)
 [matchingY,adjacent]=compareClustersMatchFirst(clusters, pointLocations, MSTy);
 
 %% find distances
@@ -23,4 +23,10 @@ end
 
 %% for each pair of clusters, apply hungarian algorithm
 clsPairs=cell2mat(matchingY(:,1:2));
-matchingX=clusterHungarian(clsPairs,distConn);
+for indx=1:size(matchingY,1)
+    cls1=matchingY{indx};
+    cls2=matchingY{indx};
+    distMat=distConn{indx};
+    [~,thisMatching]=min(distMat,[],2);
+    matchingX(indx,:)={cls1,cls2,thisMatching};
+end
