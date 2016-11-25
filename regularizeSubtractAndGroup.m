@@ -14,11 +14,8 @@ function diffsGrouping=regularizeSubtractAndGroup(subtractFeatures, varargin)
        error('regularizeSubtractAndGroup takes 1 or 2 parameters');
    end
    
-   [row, col]=find(subtractFeatures~=0);
-   firstNonZeroCol=accumarray(row, col,[],@min,1);
-   needFix=logical(subtractFeatures(sub2ind(size(subtractFeatures),1:length(firstNonZeroCol),firstNonZeroCol'))<0); % NEVER FOR LOOP!!!!
-   subtractFeatures(needFix,:)=-subtractFeatures(needFix,:);
-   
+   subtractFeatures=regularizeFeatures(subtractFeatures)
+
    if nargin==2
        subtractFeatures=postRegularCallback(subtractFeatures);
    end
